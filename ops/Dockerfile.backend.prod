@@ -1,20 +1,33 @@
+# Backend Production Image (multi-stage)
+# Build from repository root:
+#   docker build -f ops/Dockerfile.backend.prod -t app-backend:prod .
+
 # ---- Build stage ----
 FROM maven:3.9.9-eclipse-temurin-21 AS build
-WORKDIR /workspace/backend
 
-# Dependency layer (cache)
-COPY pom.xml .
+ARG BACKEND_DIR=backend
+WORKDIR /workspace/${BACKEND_DIR}
+
+# Copy Maven project descriptor(s) first for dependency caching
+COPY ${BACKEND_DIR}/pom.xml ./
+
+# (Optional) wrapper files if present
+COPY ${BACKEND_DIR}/.mvn ./.mvn
+COPY ${BACKEND_DIR}/mvnw* ./
+
 RUN mvn -q -DskipTests dependency:go-offline
 
-# Sources
-COPY src ./src
+# Copy sources
+COPY ${BACKEND_DIR}/src ./src
+
+# Package (skip tests for CI image build; adjust if you want tests here)
 RUN mvn -q -DskipTests package
 
 # ---- Run stage ----
 FROM eclipse-temurin:21-jre
 ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75"
+ARG BACKEND_DIR=backend
 WORKDIR /app
-# Copy resulting jar (adjust pattern if multiple JARs)
-COPY --from=build /workspace/backend/target/*.jar /app/app.jar
+COPY --from=build /workspace/${BACKEND_DIR}/target/*.jar /app/app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]

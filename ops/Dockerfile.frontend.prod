@@ -1,15 +1,40 @@
+##############################
+# Frontend Production Image  #
+##############################
+# NOTE: Build from the repository root so the frontend directory is in context:
+#   docker build -f ops/Dockerfile.frontend.prod -t app-frontend:prod .
+# If you really must build from another context, pass FRONTEND_DIR relative to that context.
+
 # ---- Build stage ----
 FROM node:20 AS build
+
+ARG FRONTEND_DIR=frontend
+ENV NODE_ENV=production
 WORKDIR /app
-COPY frontend/package*.json ./
-RUN npm ci
-COPY frontend/ .
+
+# Only copy package manifests first to leverage Docker layer caching for dependencies
+COPY ${FRONTEND_DIR}/package*.json ./
+RUN npm ci --omit=dev
+
+# Copy the rest of the frontend source
+COPY ${FRONTEND_DIR}/ .
+
+# Build static assets
 RUN npm run build
 
-# ---- Run stage ----
+# ---- Run stage (serve static) ----
 FROM nginx:1.27-alpine
-# minimal, secure-ish nginx conf
+LABEL org.opencontainers.image.source="https://github.com/lnbtz/ApplicationBuilder" \
+	org.opencontainers.image.description="Production frontend (static)"
+
+# Minimal, locked-down nginx config
 COPY ops/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy only built artifacts
 COPY --from=build /app/dist /usr/share/nginx/html
+
+# Ensure files are readable (nginx runs as nginx user in alpine image)
+RUN chmod -R a+r /usr/share/nginx/html
+
 EXPOSE 80
 CMD ["nginx","-g","daemon off;"]
