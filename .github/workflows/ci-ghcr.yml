@@ -24,13 +24,13 @@ jobs:
             file: ops/Dockerfile.backend.prod
             build-args: |
               BACKEND_DIR=backend
-            image: ghcr.io/${{ github.repository_owner }}/bewerbungstool-backend
+            image: ghcr.io/${{ github.repository_owner }}/applicationbuilder-backend
           - name: frontend
             context: .
             file: ops/Dockerfile.frontend.prod
             build-args: |
               FRONTEND_DIR=frontend
-            image: ghcr.io/${{ github.repository_owner }}/bewerbungstool-frontend
+            image: ghcr.io/${{ github.repository_owner }}/applicationbuilder-frontend
 
     steps:
       - name: Checkout
