@@ -9,21 +9,22 @@
 FROM node:20 AS build
 
 ARG FRONTEND_DIR=frontend
-ENV NODE_ENV=production
 WORKDIR /app
 
 # Only copy package manifests first to leverage Docker layer caching for dependencies
 COPY ${FRONTEND_DIR}/package*.json ./
-RUN npm ci --omit=dev
+# Need devDependencies (Vite, TypeScript, npm-run-all/run-p) for build step
+RUN npm ci
 
 # Copy the rest of the frontend source
 COPY ${FRONTEND_DIR}/ .
 
-# Build static assets
-RUN npm run build
+# Build static assets with production optimizations
+RUN NODE_ENV=production npm run build
 
 # ---- Run stage (serve static) ----
 FROM nginx:1.27-alpine
+ENV NODE_ENV=production
 LABEL org.opencontainers.image.source="https://github.com/lnbtz/ApplicationBuilder" \
 	org.opencontainers.image.description="Production frontend (static)"
 

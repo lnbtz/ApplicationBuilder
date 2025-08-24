@@ -11,10 +11,7 @@ WORKDIR /workspace/${BACKEND_DIR}
 # Copy Maven project descriptor(s) first for dependency caching
 COPY ${BACKEND_DIR}/pom.xml ./
 
-# (Optional) wrapper files if present
-COPY ${BACKEND_DIR}/.mvn ./.mvn
-COPY ${BACKEND_DIR}/mvnw* ./
-
+# Resolve dependencies (works without wrapper because base image has mvn)
 RUN mvn -q -DskipTests dependency:go-offline
 
 # Copy sources
