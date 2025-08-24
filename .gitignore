@@ -1,0 +1,23 @@
+# Global ignores
+.DS_Store
+
+# Environment files
+.env
+.env.local
+
+# Maven build output
+backend/target/
+
+# Node modules (root fallback if any)
+node_modules/
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Logs
+*.log
+
+# Misc
+*.swp

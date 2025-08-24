@@ -1,0 +1,7 @@
+FROM eclipse-temurin:21-jdk
+WORKDIR /workspace/backend
+
+COPY backend/.mvn .mvn
+COPY backend/mvnw backend/pom.xml ./
+RUN chmod +x mvnw && ./mvnw -q -DskipTests dependency:go-offline
+

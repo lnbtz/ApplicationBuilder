@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports: ["5432:5432"]
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ..
+      dockerfile: ops/Dockerfile.backend
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    volumes:
+      - ../backend:/workspace/backend:cached
+      - maven_cache:/root/.m2
+    working_dir: /workspace/backend
+    command: ["./mvnw","spring-boot:run","-Dspring-boot.run.jvmArguments=-XX:MaxRAMPercentage=75"]
+    depends_on: [db]
+    ports: ["8080:8080"]
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: ops/Dockerfile.frontend
+    volumes:
+      - ../frontend:/workspace/frontend:cached
+      - node_modules:/workspace/frontend/node_modules
+      - e2e_modules:/workspace/frontend/e2e/node_modules
+    working_dir: /workspace/frontend
+    command: ["npm","run","dev","--","--host","0.0.0.0","--port","5173"]
+    depends_on: [backend]
+    ports: ["5173:5173"]
+
+volumes:
+  maven_cache:
+  node_modules:
+  e2e_modules:
+  db_data:
