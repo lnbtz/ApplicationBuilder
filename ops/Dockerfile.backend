@@ -1,7 +1,7 @@
-FROM eclipse-temurin:21-jdk
+FROM maven:3.9.9-eclipse-temurin-21
 WORKDIR /workspace/backend
 
-COPY backend/.mvn .mvn
-COPY backend/mvnw backend/pom.xml ./
-RUN chmod +x mvnw && ./mvnw -q -DskipTests dependency:go-offline
+# Copy only pom for dependency download caching. Source is bind-mounted at runtime.
+COPY backend/pom.xml ./
+RUN mvn -q -DskipTests dependency:go-offline
 

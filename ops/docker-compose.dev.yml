@@ -23,7 +23,7 @@ services:
       - ../backend:/workspace/backend:cached
       - maven_cache:/root/.m2
     working_dir: /workspace/backend
-    command: ["./mvnw","spring-boot:run","-Dspring-boot.run.jvmArguments=-XX:MaxRAMPercentage=75"]
+    command: ["mvn","spring-boot:run","-Dspring-boot.run.jvmArguments=-XX:MaxRAMPercentage=75"]
     depends_on: [db]
     ports: ["8080:8080"]
 
