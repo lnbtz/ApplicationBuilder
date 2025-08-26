@@ -1,35 +1,101 @@
 @import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+  --color-primary: #42b883;
+  --color-primary-dark: #347474;
+  --color-secondary: #35495e;
+  --color-accent: #ff7e67;
+  --color-text-light: rgba(60, 60, 60, 0.7);
+  --transition-default: all 0.3s ease;
+}
 
 #app {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  color: var(--color-primary);
+  transition: var(--transition-default);
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+a:hover {
+  color: var(--color-primary-dark);
 }
 
-@media (min-width: 1024px) {
+.green {
+  color: var(--color-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
+  color: var(--color-heading);
+}
+
+p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+/* Modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-soft);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 100, 100, 0.3);
+}
+
+/* Common utility classes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
   body {
-    display: flex;
-    place-items: center;
+    font-size: 14px;
   }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
   }
 }

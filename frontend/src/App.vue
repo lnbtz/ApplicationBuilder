@@ -1,87 +1,164 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import BackendInfo from './components/BackendInfo.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="app-container">
+    <header>
+      <div class="navbar">
+        <div class="logo-container">
+          <img alt="App Builder logo" class="logo" src="@/assets/logo.svg" width="40" height="40" />
+          <span class="logo-text">App Builder</span>
+        </div>
+        
+        <nav>
+          <RouterLink to="/" class="nav-link">Home</RouterLink>
+          <RouterLink to="/about" class="nav-link">About</RouterLink>
+        </nav>
+      </div>
+    </header>
 
-    <div class="wrapper">
-  <HelloWorld msg="You did it!" />
-  <BackendInfo />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+    <div class="content">
+      <RouterView />
     </div>
-  </header>
 
-  <RouterView />
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2025 Application Builder - A Deployment Test Platform</p>
+        <p class="footer-links">
+          <a href="https://github.com/lnbtz/ApplicationBuilder" target="_blank">GitHub</a> |
+          <a href="#" target="_blank">Documentation</a> |
+          <a href="#" target="_blank">License</a>
+        </p>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 header {
-  line-height: 1.5;
-  max-height: 100vh;
+  background-color: var(--color-background);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: rotate(10deg);
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.3rem;
+  background: linear-gradient(45deg, #42b883, #347474);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  display: flex;
+  gap: 1.5rem;
 }
 
-nav a.router-link-exact-active {
+.nav-link {
+  text-decoration: none;
   color: var(--color-text);
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.3s ease;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.nav-link:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #42b883;
+  transition: width 0.3s ease;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.nav-link:hover:after,
+.router-link-exact-active:after {
+  width: 100%;
 }
 
-nav a:first-of-type {
-  border: 0;
+.router-link-exact-active {
+  color: #42b883;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+.content {
+  flex: 1;
+  width: 100%;
+}
+
+footer {
+  background-color: var(--color-background-soft);
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+.footer-links {
+  margin-top: 1rem;
+}
+
+.footer-links a {
+  color: #42b883;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #347474;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
+  
   nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
   }
 }
 </style>

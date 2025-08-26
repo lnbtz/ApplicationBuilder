@@ -18,13 +18,22 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         
-        // Parse comma-separated origins if provided
-        String[] origins = allowedOrigins.split(",");
-        for (String origin : origins) {
-            if (!origin.trim().isEmpty()) {
-                config.addAllowedOrigin(origin.trim());
+        // If allowedOrigins is "*", we need to use setAllowedOriginPatterns instead of setAllowedOrigins
+        // to support credentials with wildcard origins
+        if ("*".equals(allowedOrigins.trim())) {
+            config.addAllowedOriginPattern("*");
+        } else {
+            // Parse comma-separated origins if provided
+            String[] origins = allowedOrigins.split(",");
+            for (String origin : origins) {
+                if (!origin.trim().isEmpty()) {
+                    config.addAllowedOrigin(origin.trim());
+                }
             }
         }
+        
+        // Explicitly add localhost origin for local development
+        config.addAllowedOrigin("http://localhost:5173");
         
         // Allow standard HTTP methods and headers
         config.addAllowedMethod("*");
