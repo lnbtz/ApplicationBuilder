@@ -11,15 +11,32 @@ const loading = ref(true)
 const error = ref<string | null>(null)
 const info = ref<InfoResponse | null>(null)
 
-function backendUrl(path: string) {
-  const base = (import.meta.env.VITE_BACKEND_URL as string | undefined) || ''
-  return base.replace(/\/$/, '') + path
+function getBackendUrl(endpoint: string) {
+  // Get base URL from environment or default to empty string (for relative paths in development)
+  const baseUrl = (import.meta.env.VITE_BACKEND_URL as string | undefined) || '';
+  
+  // Ensure endpoint starts with a slash
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  
+  // If baseUrl is empty, just return the endpoint (works for local development)
+  if (!baseUrl) {
+    return normalizedEndpoint;
+  }
+  
+  // Remove trailing slash from baseUrl if present
+  const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
+  
+  // Combine base URL and endpoint
+  return `${normalizedBaseUrl}${normalizedEndpoint}`;
 }
 
 onMounted(async () => {
   try {
-    const res = await fetch(backendUrl('/api/info'))
-    if (!res.ok) throw new Error(res.status + ' ' + res.statusText)
+    // Fetch information from backend API
+    const API_ENDPOINT = '/api/info';
+    const url = getBackendUrl(API_ENDPOINT);
+    const res = await fetch(url)
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
     info.value = await res.json()
   } catch (e: any) {
     error.value = e.message || String(e)

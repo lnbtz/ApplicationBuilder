@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: appbuilder
+data:
+  # For production with domain name, use: https://example.com
+  # For local ingress, use: http://app.local
+  # For relative URL (same host), leave empty or use: ""
+  VITE_BACKEND_URL: ""
