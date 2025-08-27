@@ -7,7 +7,7 @@ import BackendInfo from '../components/BackendInfo.vue'
     <section class="hero">
       <div class="hero-content">
         <h1>Application Builder</h1>
-        <p class="subtitle">A modern deployment testing platform</p>
+        <p class="subtitle">A deployment test</p>
         <div class="cta-buttons">
           <a href="#about" class="btn primary">Learn More</a>
           <a href="https://github.com/lnbtz/ApplicationBuilder" target="_blank" class="btn secondary">View Source</a>
@@ -37,7 +37,7 @@ import BackendInfo from '../components/BackendInfo.vue'
           <div class="feature-card">
             <div class="feature-icon">🧪</div>
             <h3>Testing Platform</h3>
-            <p>Perfect for learning deployment patterns</p>
+            <p>For learning deployment strategies</p>
           </div>
         </div>
       </div>

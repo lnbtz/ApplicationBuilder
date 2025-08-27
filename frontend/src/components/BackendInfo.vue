@@ -60,7 +60,7 @@ onMounted(async () => {
       <div v-if="loading" class="loading-spinner">
         <div class="spinner"></div>
         <p>Connecting to backend...</p>
-        <p class="help-text">Note: Initial connection may take up to 30-60 seconds as our database is hosted on a free tier platform (render.com) and instances are spun down after 15 minutes of inactivity.</p>
+        <p class="help-text">Note: Initial connection may take up to 30-60 seconds as this database is hosted on a free tier platform (render.com) and instances are spun down after 15 minutes of inactivity.</p>
       </div>
       
       <div v-else-if="error" class="error-container">
@@ -69,7 +69,7 @@ onMounted(async () => {
           <h3>Connection Error</h3>
           <p>{{ error }}</p>
           <p class="help-text">Check if the backend server is running or if there are CORS issues.</p>
-          <p class="help-text">If this is the first access in a while, the database may still be starting up on our free tier hosting (render.com). Please try again in a minute.</p>
+          <p class="help-text">If this is the first access in a while, the database may still be starting up on this free tier hosting (render.com). Please try again in a minute.</p>
         </div>
       </div>
       

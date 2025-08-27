@@ -24,7 +24,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <footer>
       <div class="footer-content">
-        <p>&copy; 2025 Application Builder - A Deployment Test Platform</p>
+        <p>&copy; 2025 Application Builder - A Deployment Test</p>
         <p class="footer-links">
           <a href="https://github.com/lnbtz/ApplicationBuilder" target="_blank">GitHub</a> |
           <a href="#" target="_blank">Documentation</a> |

@@ -58,7 +58,7 @@
       <div class="card">
         <h2>Project Structure</h2>
         <p>
-          The application follows a modern microservices architecture with separate frontend and backend components:
+          The application follows a Traditional Three-Tier Architecture with separate frontend and backend components:
         </p>
         <ul class="structure-list">
           <li><strong>Frontend:</strong> Vue.js application with a modern UI</li>
